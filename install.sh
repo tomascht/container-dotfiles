@@ -14,7 +14,6 @@ echo "install brew"
 echo >>~/.bashrc
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
-source ~/.bashrc
 exec bash
 
 brew install neovim
