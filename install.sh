@@ -9,5 +9,4 @@ echo "Installing dotfiles and more"
 
 #touch ~/.profile
 >~/.profile
-echo "export SHELL=$(which zsh)" >>~/.profile
-echo "[ -z "$ZSH_VERSION" ] && exec \"$SHELL\" -l" >>~/.profile
+echo "exec \"$(which zsh)\" -l" >>~/.profile
