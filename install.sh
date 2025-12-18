@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Installing dotfiles and more"
 apt update
