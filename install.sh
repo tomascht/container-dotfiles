@@ -18,3 +18,5 @@ echo 'exec zsh' >>~/.bashrc
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo 'alias ll="ls -alh"' >>~/.zshrc
