@@ -9,7 +9,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep
+brew install zsh neovim ripgrep lazygit
 
 echo 'exec zsh' >>~/.bashrc
 
