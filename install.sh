@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo "Installing dotfiles and more"
 #sudo apt update
@@ -14,7 +14,7 @@ echo "install brew"
 echo >>~/.bashrc
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
-exec bash
+source ~/.bashrc
 
 brew install neovim
 
