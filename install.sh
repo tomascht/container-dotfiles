@@ -16,7 +16,9 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install neovim
+brew install zsh vim neovim ripgrep
+
+echo 'exec zsh' >>~/.bashrc
 
 # Lazyvim
 mv ~/.config/nvim{,.bak}
