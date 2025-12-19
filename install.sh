@@ -28,4 +28,4 @@ echo 'alias rspec="bundle exec rspec"'
 echo 'alias cap="bundle exec cap"'
 
 # zoxide setup
-eval "$(zoxide init zsh --cmd cd)"
+echo 'eval "$(zoxide init zsh --cmd cd)"' >>~/.zshrc
