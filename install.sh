@@ -9,7 +9,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide
+brew install zsh neovim ripgrep lazygit zoxide tmux
 
 echo 'exec zsh' >>~/.bashrc
 
