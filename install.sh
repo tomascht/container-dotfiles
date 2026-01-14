@@ -21,6 +21,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 # git set editor
 git config --global core.editor "nvim"
+echo 'export TERM="xterm-256color"' >>~/.zshrc
+
+# tmux setup
+echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
 
 # aliases
 echo 'alias ll="ls -alh"' >>~/.zshrc
