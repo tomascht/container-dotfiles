@@ -12,6 +12,7 @@ source ~/.bashrc
 brew install zsh neovim ripgrep lazygit zoxide tmux
 
 echo 'exec zsh' >>~/.bashrc
+echo 'export SHELL="$(which zsh)"
 
 # Lazyvim
 # mv ~/.config/nvim{,.bak}
