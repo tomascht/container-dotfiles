@@ -31,7 +31,7 @@ echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
 # aliases
 echo 'alias ll="ls -alh"' >>~/.zshrc
 echo 'alias v="nvim"' >>~/.zshrc
-echo 'alias gpp="git push -u origin $(git rev-parse --abbrev-ref HEAD)"' >>~/.zshrc
+echo "alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'" >>~/.zshrc
 echo 'alias rails="bundle exec rails"' >>~/.zshrc
 echo 'alias rspec="bundle exec rspec"' >>~/.zshrc
 echo 'alias cap="bundle exec cap"' >>~/.zshrc
