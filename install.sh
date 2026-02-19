@@ -9,7 +9,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide tmux
+brew install zsh neovim ripgrep lazygit zoxide tmux copilot-cli
 
 echo 'exec zsh' >>~/.bashrc
 echo 'export SHELL="$(which zsh)"'
