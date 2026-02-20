@@ -39,3 +39,6 @@ echo 'alias gfp="git fetch --all --prune"' >>~/.zshrc
 
 # zoxide setup
 echo 'eval "$(zoxide init zsh --cmd cd)"' >>~/.zshrc
+
+# install mistral vibe
+curl -LsSf https://mistral.ai/vibe/install.sh | bash
