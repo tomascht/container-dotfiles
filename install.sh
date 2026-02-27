@@ -9,7 +9,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide tmux copilot-cli
+brew install zsh neovim ripgrep lazygit zoxide tmux
 
 echo 'exec zsh' >>~/.bashrc
 echo 'export SHELL="$(which zsh)"'
@@ -39,6 +39,3 @@ echo 'alias gfp="git fetch --all --prune"' >>~/.zshrc
 
 # zoxide setup
 echo 'eval "$(zoxide init zsh --cmd cd)"' >>~/.zshrc
-
-# install mistral vibe
-curl -LsSf https://mistral.ai/vibe/install.sh | bash
