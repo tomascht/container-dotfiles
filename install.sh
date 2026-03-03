@@ -39,3 +39,7 @@ echo 'alias gfp="git fetch --all --prune"' >>~/.zshrc
 
 # zoxide setup
 echo 'eval "$(zoxide init zsh --cmd cd)"' >>~/.zshrc
+
+# install claude code
+echo 'export PATH="$HOME/.local/bin:$PATH"'
+curl -fsSL https://claude.ai/install.sh | bash
