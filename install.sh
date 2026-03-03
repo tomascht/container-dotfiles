@@ -22,7 +22,7 @@ cp nvim-keymaps.lua ~/.config/nvim/lua/config/keymaps.lua
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # git set editor
-git config --global core.editor "nvim"
+# git config --global core.editor "nvim"
 echo 'export TERM="xterm-256color"' >>~/.zshrc
 
 # tmux setup
