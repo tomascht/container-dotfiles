@@ -40,7 +40,7 @@ alias cap='bundle exec cap'
 alias gfp='git fetch --all --prune'
 
 # zoxide setup
-eval '$(zoxide init zsh --cmd cd)'
+eval "$(zoxide init zsh --cmd cd)"
 EOF
 
 # install claude code
