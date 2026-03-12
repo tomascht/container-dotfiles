@@ -30,16 +30,18 @@ echo 'export TERM="xterm-256color"' >>~/.zshrc
 echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
 
 # aliases
-echo 'alias ll="ls -alh"' >>~/.zshrc
-echo 'alias v="nvim"' >>~/.zshrc
-echo "alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'" >>~/.zshrc
-echo 'alias rails="bundle exec rails"' >>~/.zshrc
-echo 'alias rspec="bundle exec rspec"' >>~/.zshrc
-echo 'alias cap="bundle exec cap"' >>~/.zshrc
-echo 'alias gfp="git fetch --all --prune"' >>~/.zshrc
+cat >>~/.zshrc <<'EOF'
+alias ll='ls -alh'
+alias v='nvim'
+alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias rails='bundle exec rails'
+alias rspec='bundle exec rspec'
+alias cap='bundle exec cap'
+alias gfp='git fetch --all --prune'
 
 # zoxide setup
-echo 'eval "$(zoxide init zsh --cmd cd)"' >>~/.zshrc
+eval '$(zoxide init zsh --cmd cd)'
+EOF
 
 # install claude code
 echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.zshrc
