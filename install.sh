@@ -46,3 +46,16 @@ EOF
 # install claude code
 echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.zshrc
 curl -fsSL https://claude.ai/install.sh | bash
+
+# claude code config
+mkdir -p ~/.claude
+cp claude-statusline.sh ~/.claude/statusline-command.sh
+chmod +x ~/.claude/statusline-command.sh
+cat >~/.claude/settings.json <<'EOF'
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  }
+}
+EOF
