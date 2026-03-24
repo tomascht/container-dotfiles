@@ -21,6 +21,8 @@ pr_number=$(echo "$pr_json" | jq -r '.number // empty' 2>/dev/null)
 pr_url=$(echo "$pr_json" | jq -r '.url // empty' 2>/dev/null)
 worktree_name=$(echo "$input" | jq -r '.worktree.name // empty')
 worktree_branch=$(echo "$input" | jq -r '.worktree.branch // empty')
+rate_5h=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+rate_7d=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
 # Progress bar for context window (10 chars wide)
 BAR_WIDTH=10
@@ -57,6 +59,22 @@ if [ -n "$pr_url" ]; then
   printf '\n%s' "${MAGENTA}${pr_url}${RESET}"
 elif [ -n "$pr_number" ]; then
   printf '\n%s' "${MAGENTA}PR #${pr_number}${RESET}"
+fi
+
+# Rate limits (only shown for Pro/Max subscribers)
+if [ -n "$rate_5h" ]; then
+  rate_5h_int=$(printf '%.0f' "$rate_5h")
+  if [ "$rate_5h_int" -ge 80 ]; then RATE_5H_COLOR="$RED"
+  elif [ "$rate_5h_int" -ge 50 ]; then RATE_5H_COLOR="$YELLOW"
+  else RATE_5H_COLOR="$GREEN"; fi
+  printf '%s' " ${SEP} 5h: ${RATE_5H_COLOR}${rate_5h_int}%${RESET}"
+fi
+if [ -n "$rate_7d" ]; then
+  rate_7d_int=$(printf '%.0f' "$rate_7d")
+  if [ "$rate_7d_int" -ge 80 ]; then RATE_7D_COLOR="$RED"
+  elif [ "$rate_7d_int" -ge 50 ]; then RATE_7D_COLOR="$YELLOW"
+  else RATE_7D_COLOR="$GREEN"; fi
+  printf '%s' " ${SEP} 7d: ${RATE_7D_COLOR}${rate_7d_int}%${RESET}"
 fi
 
 # Worktree (yellow)
