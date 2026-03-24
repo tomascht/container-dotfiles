@@ -22,87 +22,68 @@ pr_url=$(echo "$pr_json" | jq -r '.url // empty' 2>/dev/null)
 worktree_name=$(echo "$input" | jq -r '.worktree.name // empty')
 worktree_branch=$(echo "$input" | jq -r '.worktree.branch // empty')
 rate_5h=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
-rate_5h_resets_at=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 rate_7d=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
-# Progress bar for context window (10 chars wide)
-BAR_WIDTH=10
-FILLED=$(( used * BAR_WIDTH / 100 ))
-EMPTY=$(( BAR_WIDTH - FILLED ))
-BAR=""
-for ((i=0; i<FILLED; i++)); do BAR="${BAR}▓"; done
-for ((i=0; i<EMPTY; i++)); do BAR="${BAR}░"; done
+SEP=" ${DIM}│${RESET} "
 
-# Color the bar based on usage
-if [ "$used" -ge 80 ]; then
-  BAR_COLOR="$RED"
-elif [ "$used" -ge 50 ]; then
-  BAR_COLOR="$YELLOW"
-else
-  BAR_COLOR="$GREEN"
-fi
+# Helper: build a progress bar
+# Usage: make_bar <percentage> <width>
+make_bar() {
+  local pct=$1 width=$2
+  local filled=$(( pct * width / 100 ))
+  local empty=$(( width - filled ))
+  local bar=""
+  for ((i=0; i<filled; i++)); do bar="${bar}▓"; done
+  for ((i=0; i<empty; i++)); do bar="${bar}░"; done
+  echo "$bar"
+}
 
-SEP="${DIM}|${RESET}"
+# Helper: color by percentage threshold
+color_for_pct() {
+  local pct=$1
+  if [ "$pct" -ge 80 ]; then echo "$RED"
+  elif [ "$pct" -ge 50 ]; then echo "$YELLOW"
+  else echo "$GREEN"; fi
+}
 
-# Model (cyan bold)
+# --- Line 1: Model │ Branch │ PR │ Worktree ---
 printf '%s' "${CYAN}${BOLD}${model}${RESET}"
 
-# Context bar
-printf '%s' " ${SEP} ctx: ${BAR_COLOR}${BAR}${RESET} ${DIM}${used}%${RESET}"
-
-# Branch (blue)
 if [ -n "$branch" ]; then
-  printf '%s' " ${SEP} ${BLUE}${branch}${RESET}"
+  printf '%s' "${SEP}${BLUE}⎇ ${branch}${RESET}"
 fi
 
-# PR link – second line so URL is fully visible
 if [ -n "$pr_url" ]; then
-  printf '\n%s' "${MAGENTA}${pr_url}${RESET}"
+  printf '%s' "${SEP}${MAGENTA}${pr_url}${RESET}"
 elif [ -n "$pr_number" ]; then
-  printf '\n%s' "${MAGENTA}PR #${pr_number}${RESET}"
+  printf '%s' "${SEP}${MAGENTA}PR #${pr_number}${RESET}"
 fi
 
-# Rate limits (only shown for Pro/Max subscribers)
-if [ -n "$rate_5h" ]; then
-  rate_5h_int=$(printf '%.0f' "$rate_5h")
-  if [ "$rate_5h_int" -ge 80 ]; then RATE_5H_COLOR="$RED"
-  elif [ "$rate_5h_int" -ge 50 ]; then RATE_5H_COLOR="$YELLOW"
-  else RATE_5H_COLOR="$GREEN"; fi
-  # Build countdown string if resets_at is available
-  reset_str=""
-  if [ -n "$rate_5h_resets_at" ]; then
-    now=$(date +%s)
-    diff=$(( rate_5h_resets_at - now ))
-    if [ "$diff" -le 0 ]; then
-      reset_str=" ${DIM}(resets soon)${RESET}"
-    else
-      diff_min=$(( diff / 60 ))
-      diff_h=$(( diff_min / 60 ))
-      diff_m=$(( diff_min % 60 ))
-      if [ "$diff_h" -gt 0 ]; then
-        reset_str=" ${DIM}(resets in ${diff_h}h${diff_m}m)${RESET}"
-      else
-        reset_str=" ${DIM}(resets in ${diff_m}m)${RESET}"
-      fi
-    fi
-  fi
-  printf '%s' " ${SEP} 5h: ${RATE_5H_COLOR}${rate_5h_int}%${RESET}${reset_str}"
-fi
-if [ -n "$rate_7d" ]; then
-  rate_7d_int=$(printf '%.0f' "$rate_7d")
-  if [ "$rate_7d_int" -ge 80 ]; then RATE_7D_COLOR="$RED"
-  elif [ "$rate_7d_int" -ge 50 ]; then RATE_7D_COLOR="$YELLOW"
-  else RATE_7D_COLOR="$GREEN"; fi
-  printf '%s' " ${SEP} 7d: ${RATE_7D_COLOR}${rate_7d_int}%${RESET}"
-fi
-
-# Worktree (yellow)
 if [ -n "$worktree_name" ]; then
   WT="${YELLOW}worktree: ${worktree_name}${RESET}"
   if [ -n "$worktree_branch" ]; then
     WT="${WT} ${DIM}(${worktree_branch})${RESET}"
   fi
-  printf '%s' " ${SEP} ${WT}"
+  printf '%s' "${SEP}${WT}"
+fi
+
+# --- Line 2: Context │ 5h │ 7d ---
+CTX_COLOR=$(color_for_pct "$used")
+CTX_BAR=$(make_bar "$used" 10)
+printf '\n%s' "${DIM}ctx${RESET} ${CTX_COLOR}${CTX_BAR}${RESET} ${DIM}${used}%${RESET}"
+
+if [ -n "$rate_5h" ]; then
+  rate_5h_int=$(printf '%.0f' "$rate_5h")
+  R5_COLOR=$(color_for_pct "$rate_5h_int")
+  R5_BAR=$(make_bar "$rate_5h_int" 5)
+  printf '%s' "${SEP}${DIM}5h${RESET} ${R5_COLOR}${R5_BAR}${RESET} ${DIM}${rate_5h_int}%${RESET}"
+fi
+
+if [ -n "$rate_7d" ]; then
+  rate_7d_int=$(printf '%.0f' "$rate_7d")
+  R7_COLOR=$(color_for_pct "$rate_7d_int")
+  R7_BAR=$(make_bar "$rate_7d_int" 5)
+  printf '%s' "${SEP}${DIM}7d${RESET} ${R7_COLOR}${R7_BAR}${RESET} ${DIM}${rate_7d_int}%${RESET}"
 fi
 
 printf '\n'
