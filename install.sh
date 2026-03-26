@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 echo "Installing dotfiles and more"
 echo "install brew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -11,8 +13,12 @@ source ~/.bashrc
 
 brew install zsh neovim ripgrep lazygit zoxide tmux jq
 
-echo 'exec zsh' >>~/.bashrc
-echo 'export SHELL="$(which zsh)"'
+cat >>~/.bashrc <<'EOF'
+
+if [[ $- == *i* ]] && [[ -z "${BASH_EXECUTION_STRING:-}" ]] && [[ -t 1 ]] && command -v zsh >/dev/null 2>&1; then
+  exec zsh -l
+fi
+EOF
 
 # Lazyvim
 # mv ~/.config/nvim{,.bak}
@@ -22,8 +28,19 @@ cp lazyvim-options.lua ~/.config/nvim/lua/config/options.lua
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+if command -v zsh >/dev/null 2>&1 && [[ -w /etc/shells ]] && ! grep -qx "$(command -v zsh)" /etc/shells; then
+  echo "$(command -v zsh)" >> /etc/shells
+fi
+
+if command -v chsh >/dev/null 2>&1; then
+  chsh -s "$(command -v zsh)" "$(id -un)" || true
+fi
+
 # git set editor
 # git config --global core.editor "nvim"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.zshrc
+echo 'export SHELL="$(command -v zsh)"' >>~/.zshrc
+echo 'export HISTFILE=/usr/local/hist/.zsh_history' >>~/.zshrc
 echo 'export TERM="xterm-256color"' >>~/.zshrc
 
 # tmux setup
