@@ -11,7 +11,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide tmux jq
+brew install zsh neovim ripgrep lazygit zoxide tmux jq node
 
 cat >>~/.bashrc <<'EOF'
 
@@ -76,3 +76,6 @@ cat >~/.claude/settings.json <<'EOF'
   }
 }
 EOF
+
+# Install playwright
+npx playwright install chromium
