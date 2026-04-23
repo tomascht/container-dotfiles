@@ -77,5 +77,10 @@ cat >~/.claude/settings.json <<'EOF'
 }
 EOF
 
+# install opencode
+mkdir -p $HOME/.local/tmp
+echo 'export TMPDIR="$HOME/.local/tmp"' >>~/.zshrc
+curl -fsSL https://opencode.ai/install | bash
+
 # Install playwright
 npx playwright install chromium
