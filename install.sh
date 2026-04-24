@@ -42,6 +42,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.zshrc
 echo 'export SHELL="$(command -v zsh)"' >>~/.zshrc
 echo 'export HISTFILE=/usr/local/hist/.zsh_history' >>~/.zshrc
 echo 'export TERM="xterm-256color"' >>~/.zshrc
+echo 'export EDITOR="nvim"' >>~/.zshrc
 
 # tmux setup
 echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
