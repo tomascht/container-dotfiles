@@ -83,5 +83,12 @@ mkdir -p $HOME/.local/tmp
 echo 'export TMPDIR="$HOME/.local/tmp"' >>~/.zshrc
 curl -fsSL https://opencode.ai/install | bash
 
+# pi installation
+npm install -g @mariozechner/pi-coding-agent
+# pi settings
+mkdir -p $HOME/.pi/agent/extensions
+cp .pi/* $HOME/.pi/agent/extensions/
+
+
 # Install playwright
 npx playwright install chromium
