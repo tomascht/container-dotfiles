@@ -20,7 +20,7 @@ if [[ $- == *i* ]] && [[ -z "${BASH_EXECUTION_STRING:-}" ]] && [[ -t 1 ]] && com
 fi
 EOF
 
-# Lazyvim
+## Lazyvim
 # mv ~/.config/nvim{,.bak}
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 cp lazyvim-keymaps.lua ~/.config/nvim/lua/config/keymaps.lua
@@ -44,10 +44,10 @@ echo 'export HISTFILE=/usr/local/hist/.zsh_history' >>~/.zshrc
 echo 'export TERM="xterm-256color"' >>~/.zshrc
 echo 'export EDITOR="nvim"' >>~/.zshrc
 
-# tmux setup
+## tmux setup
 echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
 
-# aliases
+## aliases
 cat >>~/.zshrc <<'EOF'
 alias ll='ls -alh'
 alias v='nvim'
@@ -57,15 +57,15 @@ alias rspec='bundle exec rspec'
 alias cap='bundle exec cap'
 alias gfp='git fetch --all --prune'
 
-# zoxide setup
+## zoxide setup
 eval "$(zoxide init zsh --cmd cd)"
 EOF
 
-# install claude code
+## install claude code
 echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.zshrc
 curl -fsSL https://claude.ai/install.sh | bash
 
-# claude code config
+## claude code config
 mkdir -p ~/.claude
 cp claude-statusline.sh ~/.claude/statusline-command.sh
 chmod +x ~/.claude/statusline-command.sh
@@ -78,16 +78,16 @@ cat >~/.claude/settings.json <<'EOF'
 }
 EOF
 
-# install opencode
-mkdir -p $HOME/.local/tmp
-echo 'export TMPDIR="$HOME/.local/tmp"' >>~/.zshrc
-curl -fsSL https://opencode.ai/install | bash
+## install opencode
+# mkdir -p $HOME/.local/tmp
+# echo 'export TMPDIR="$HOME/.local/tmp"' >>~/.zshrc
+# curl -fsSL https://opencode.ai/install | bash
 
-# pi installation
-npm install -g @mariozechner/pi-coding-agent
-# pi settings
-mkdir -p $HOME/.pi/agent/extensions
-cp .pi/* $HOME/.pi/agent/extensions/
+## pi installation
+# npm install -g @mariozechner/pi-coding-agent
+## pi settings
+# mkdir -p $HOME/.pi/agent/extensions
+# cp .pi/* $HOME/.pi/agent/extensions/
 
 
 # Install playwright
