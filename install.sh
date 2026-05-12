@@ -11,7 +11,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide tmux jq node
+brew install zsh neovim ripgrep lazygit zoxide tmux jq node gh
 
 cat >>~/.bashrc <<'EOF'
 
@@ -92,3 +92,7 @@ EOF
 
 # Install playwright
 npx playwright install chromium
+
+if [ -n "$GITHUB_TOKEN" ]; then
+    gh auth login
+fi
