@@ -47,20 +47,6 @@ echo 'export EDITOR="nvim"' >>~/.zshrc
 ## tmux setup
 echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
 
-## aliases
-cat >>~/.zshrc <<'EOF'
-alias ll='ls -alh'
-alias v='nvim'
-alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
-alias rails='bundle exec rails'
-alias rspec='bundle exec rspec'
-alias cap='bundle exec cap'
-alias gfp='git fetch --all --prune'
-
-## zoxide setup
-eval "$(zoxide init zsh --cmd cd)"
-EOF
-
 ## install claude code
 echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.zshrc
 curl -fsSL https://claude.ai/install.sh | bash
@@ -96,3 +82,18 @@ npx playwright install chromium
 if [ -n "$GITHUB_TOKEN" ]; then
     gh auth login
 fi
+
+# Set aliases at the end of the install.sh to avoid problems with zoxide
+## aliases
+cat >>~/.zshrc <<'EOF'
+alias ll='ls -alh'
+alias v='nvim'
+alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias rails='bundle exec rails'
+alias rspec='bundle exec rspec'
+alias cap='bundle exec cap'
+alias gfp='git fetch --all --prune'
+
+## zoxide setup
+eval "$(zoxide init zsh --cmd cd)"
+EOF
