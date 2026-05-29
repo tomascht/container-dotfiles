@@ -89,6 +89,6 @@ EOF
 # Install playwright
 npx playwright install chromium
 
-if [ -n "$GITHUB_TOKEN" ]; then
+if [ -n "${GITHUB_TOKEN+x}" ]; then
   gh auth login
 fi
