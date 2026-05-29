@@ -11,7 +11,7 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 source ~/.bashrc
 
-brew install zsh neovim ripgrep lazygit zoxide tmux jq node gh
+brew install zsh neovim ripgrep lazygit tmux jq node gh
 
 cat >>~/.bashrc <<'EOF'
 
@@ -29,7 +29,7 @@ cp lazyvim-options.lua ~/.config/nvim/lua/config/options.lua
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 if command -v zsh >/dev/null 2>&1 && [[ -w /etc/shells ]] && ! grep -qx "$(command -v zsh)" /etc/shells; then
-  echo "$(command -v zsh)" >> /etc/shells
+  echo "$(command -v zsh)" >>/etc/shells
 fi
 
 if command -v chsh >/dev/null 2>&1; then
@@ -43,6 +43,17 @@ echo 'export SHELL="$(command -v zsh)"' >>~/.zshrc
 echo 'export HISTFILE=/usr/local/hist/.zsh_history' >>~/.zshrc
 echo 'export TERM="xterm-256color"' >>~/.zshrc
 echo 'export EDITOR="nvim"' >>~/.zshrc
+
+## aliases
+cat >>~/.zshrc <<'EOF'
+alias ll='ls -alh'
+alias v='nvim'
+alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias rails='bundle exec rails'
+alias rspec='bundle exec rspec'
+alias cap='bundle exec cap'
+alias gfp='git fetch --all --prune'
+EOF
 
 ## tmux setup
 echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >>~/.tmux.conf
@@ -75,25 +86,9 @@ EOF
 # mkdir -p $HOME/.pi/agent/extensions
 # cp .pi/* $HOME/.pi/agent/extensions/
 
-
 # Install playwright
 npx playwright install chromium
 
 if [ -n "$GITHUB_TOKEN" ]; then
-    gh auth login
+  gh auth login
 fi
-
-# Set aliases at the end of the install.sh to avoid problems with zoxide
-## aliases
-cat >>~/.zshrc <<'EOF'
-alias ll='ls -alh'
-alias v='nvim'
-alias gpp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
-alias rails='bundle exec rails'
-alias rspec='bundle exec rspec'
-alias cap='bundle exec cap'
-alias gfp='git fetch --all --prune'
-
-## zoxide setup
-eval "$(zoxide init zsh --cmd cd)"
-EOF
