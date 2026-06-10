@@ -44,7 +44,7 @@ echo 'export HISTFILE=/usr/local/hist/.zsh_history' >>~/.zshrc
 echo 'export TERM="xterm-256color"' >>~/.zshrc
 echo 'export EDITOR="nvim"' >>~/.zshrc
 
-## aliases
+## aliases and prompt changes
 cat >>~/.zshrc <<'EOF'
 alias ll='ls -alh'
 alias v='nvim'
@@ -53,6 +53,13 @@ alias rails='bundle exec rails'
 alias rspec='bundle exec rspec'
 alias cap='bundle exec cap'
 alias gfp='git fetch --all --prune'
+
+# Docker-marker for the Prompt
+function _docker_prompt_info() {
+  [[ -f /.dockerenv ]] && echo "%F{cyan}🐳%f "
+}
+
+PROMPT='$(_docker_prompt_info)'$PROMPT
 EOF
 
 ## tmux setup
